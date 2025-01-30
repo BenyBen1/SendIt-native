@@ -56,7 +56,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#002147", // Deep Blue Background
+    backgroundColor: "#002147",
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#FFA500", // Orange Accent
+    color: "#FFA500",
     marginBottom: 20,
   },
   input: {
