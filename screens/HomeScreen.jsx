@@ -46,7 +46,10 @@ const HomeScreen = ({ navigation }) => {
 
         {/* Quick Actions */}
         <View style={styles.quickActions}>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => navigation.navigate('SendPackage')}
+          >
             <MaterialIcons name="local-shipping" size={24} color="#fff" />
             <Text style={styles.actionText}>Send Package</Text>
           </TouchableOpacity>
@@ -71,38 +74,23 @@ const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#002147", padding: 16 },
-  
-  /* Header */
-  header: { 
-    flexDirection: "row", 
-    alignItems: "center", 
-    justifyContent: "space-between", 
-    marginBottom: 20 
-  },
+  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 20 },
   logoContainer: { flexDirection: "row", alignItems: "center" },
   logo: { width: 40, height: 40, marginRight: 10 },
   companyName: { fontSize: 20, fontWeight: "bold", color: "#FFA500" },
   logoutButton: { padding: 10 },
-
-  /* Balance Card */
   balanceCard: { backgroundColor: "#FFA500", padding: 20, borderRadius: 10, marginBottom: 20 },
   balanceText: { color: "#fff", fontSize: 16 },
   amount: { color: "#fff", fontSize: 28, fontWeight: "bold", marginVertical: 8 },
   topUpButton: { backgroundColor: "#fff", padding: 10, borderRadius: 5, alignSelf: "flex-start" },
   topUpText: { color: "#FFA500", fontWeight: "bold" },
-
-  /* Tracking Search */
   searchContainer: { flexDirection: "row", backgroundColor: "#334466", borderRadius: 10, padding: 10, alignItems: "center" },
   searchIcon: { marginRight: 10 },
   searchInput: { flex: 1, color: "#fff" },
   barcodeIcon: { marginLeft: 10 },
-
-  /* Quick Actions */
   quickActions: { flexDirection: "row", justifyContent: "space-between", marginTop: 20 },
   actionButton: { alignItems: "center", backgroundColor: "#FFA500", padding: 15, borderRadius: 10, width: "48%" },
   actionText: { color: "#fff", marginTop: 5, fontWeight: "bold" },
-
-  /* Tracking */
   trackingCard: { backgroundColor: "#fff", padding: 15, borderRadius: 10, marginTop: 20 },
   sectionTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
   trackingItem: { flexDirection: "row", alignItems: "center" },
