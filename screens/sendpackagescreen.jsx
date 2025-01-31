@@ -1,167 +1,306 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Picker, Button, StyleSheet, ScrollView, Alert } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  FlatList,
+  Platform,
+  KeyboardAvoidingView,
+  StatusBar,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { addPackage } from "../components/packageSlice";
+import { useDispatch } from "react-redux";
 
-const SendPackageScreen = () => {
-  const [senderName, setSenderName] = useState('');
-  const [senderAddress, setSenderAddress] = useState('');
-  const [senderContact, setSenderContact] = useState('');
-  const [receiverName, setReceiverName] = useState('');
-  const [receiverAddress, setReceiverAddress] = useState('');
-  const [receiverContact, setReceiverContact] = useState('');
-  const [packageDescription, setPackageDescription] = useState('');
-  const [packageWeight, setPackageWeight] = useState('');
-  const [specialInstructions, setSpecialInstructions] = useState('');
-  const [deliveryOption, setDeliveryOption] = useState('standard');
-  const [pickupDropoff, setPickupDropoff] = useState('pickup');
-  const [paymentMethod, setPaymentMethod] = useState('');
+const SendPackageScreen = ({ navigation }) => {
+  const [formData, setFormData] = useState({
+    senderName: "",
+    senderAddress: "",
+    senderContact: "",
+    receiverName: "",
+    receiverAddress: "",
+    receiverContact: "",
+    packageDescription: "",
+    packageWeight: "",
+    specialInstructions: "",
+    deliveryOption: "standard",
+    pickupDropoff: "pickup",
+    paymentMethod: "",
+  });
+
+  const dispatch = useDispatch();
+
+  const deliveryOptions = [
+    { label: "Standard Delivery", value: "standard" },
+    { label: "Express Delivery", value: "express" },
+    { label: "Same-day Delivery", value: "same-day" },
+  ];
+
+  const pickupDropoffOptions = [
+    { label: "Pickup", value: "pickup" },
+    { label: "Door Delivery", value: "door" },
+  ];
+
+  const paymentMethods = [
+    { label: "Cash", value: "cash" },
+    { label: "Credit Card", value: "credit-card" },
+  ];
 
   const handleConfirmOrder = () => {
-    console.log('Confirm Order button clicked');
-    if (senderName && senderAddress && senderContact && receiverName && receiverAddress && receiverContact && packageDescription && packageWeight && paymentMethod) {
-      Alert.alert('Order Confirmed', 'Your package has been successfully sent!');
+    if (
+      formData.senderName &&
+      formData.senderAddress &&
+      formData.senderContact &&
+      formData.receiverName &&
+      formData.receiverAddress &&
+      formData.receiverContact &&
+      formData.packageDescription &&
+      formData.packageWeight &&
+      formData.paymentMethod
+    ) {
+      dispatch(addPackage(formData)); // Dispatch package to Redux
+
+      Alert.alert("Order Confirmed", "Your package has been successfully sent!", [
+        { text: "OK", onPress: () => navigation.goBack() },
+      ]);
     } else {
-      Alert.alert('Error', 'Please fill in all required fields.');
+      Alert.alert("Error", "Please fill in all required fields.");
     }
   };
 
+  const handleSelectDeliveryOption = (option) => {
+    setFormData({ ...formData, deliveryOption: option });
+  };
+
+  const handleSelectPickupDropoff = (option) => {
+    setFormData({ ...formData, pickupDropoff: option });
+  };
+
+  const handleSelectPaymentMethod = (method) => {
+    setFormData({ ...formData, paymentMethod: method });
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Send Package</Text>
-      
-      <Text style={styles.label}>Sender Name</Text>
-      <TextInput
-        style={styles.input}
-        value={senderName}
-        onChangeText={setSenderName}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <MaterialIcons name="arrow-back" size={24} color="white" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Send Package</Text>
+      </View>
+
+      <FlatList
+        data={[{}]}
+        keyExtractor={() => "key"}
+        renderItem={() => (
+          <>
+            {/* Sender Details */}
+            <View style={styles.card}>
+              <Text style={styles.sectionTitle}>Sender Details</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Name"
+                value={formData.senderName}
+                onChangeText={(text) => setFormData({ ...formData, senderName: text })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Address"
+                value={formData.senderAddress}
+                onChangeText={(text) => setFormData({ ...formData, senderAddress: text })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Contact Number"
+                value={formData.senderContact}
+                onChangeText={(text) => setFormData({ ...formData, senderContact: text })}
+                keyboardType="phone-pad"
+              />
+            </View>
+
+            {/* Receiver Details */}
+            <View style={styles.card}>
+              <Text style={styles.sectionTitle}>Receiver Details</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Name"
+                value={formData.receiverName}
+                onChangeText={(text) => setFormData({ ...formData, receiverName: text })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Address"
+                value={formData.receiverAddress}
+                onChangeText={(text) => setFormData({ ...formData, receiverAddress: text })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Contact Number"
+                value={formData.receiverContact}
+                onChangeText={(text) => setFormData({ ...formData, receiverContact: text })}
+                keyboardType="phone-pad"
+              />
+            </View>
+
+            {/* Package Details */}
+            <View style={styles.card}>
+              <Text style={styles.sectionTitle}>Package Details</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Description"
+                value={formData.packageDescription}
+                onChangeText={(text) => setFormData({ ...formData, packageDescription: text })}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Weight (kg)"
+                value={formData.packageWeight}
+                onChangeText={(text) => setFormData({ ...formData, packageWeight: text })}
+                keyboardType="numeric"
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Special Instructions (Optional)"
+                value={formData.specialInstructions}
+                onChangeText={(text) => setFormData({ ...formData, specialInstructions: text })}
+              />
+            </View>
+
+            {/* Delivery Option */}
+            <View style={styles.card}>
+              <Text style={styles.label}>Delivery Option</Text>
+              <FlatList
+                data={deliveryOptions}
+                keyExtractor={(item) => item.value}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.optionButton,
+                      formData.deliveryOption === item.value && styles.selectedOption,
+                    ]}
+                    onPress={() => handleSelectDeliveryOption(item.value)}
+                  >
+                    <Text
+                      style={[
+                        styles.optionText,
+                        formData.deliveryOption === item.value && styles.selectedOptionText,
+                      ]}
+                    >
+                      {item.label}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+
+            {/* Pickup/Dropoff Option */}
+            <View style={styles.card}>
+              <Text style={styles.label}>Pickup/Dropoff Option</Text>
+              <FlatList
+                data={pickupDropoffOptions}
+                keyExtractor={(item) => item.value}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.optionButton,
+                      formData.pickupDropoff === item.value && styles.selectedOption,
+                    ]}
+                    onPress={() => handleSelectPickupDropoff(item.value)}
+                  >
+                    <Text
+                      style={[
+                        styles.optionText,
+                        formData.pickupDropoff === item.value && styles.selectedOptionText,
+                      ]}
+                    >
+                      {item.label}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+
+            {/* Payment Method */}
+            <View style={styles.card}>
+              <Text style={styles.label}>Payment Method</Text>
+              <FlatList
+                data={paymentMethods}
+                keyExtractor={(item) => item.value}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={[
+                      styles.optionButton,
+                      formData.paymentMethod === item.value && styles.selectedOption,
+                    ]}
+                    onPress={() => handleSelectPaymentMethod(item.value)}
+                  >
+                    <Text
+                      style={[
+                        styles.optionText,
+                        formData.paymentMethod === item.value && styles.selectedOptionText,
+                      ]}
+                    >
+                      {item.label}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+
+            {/* Confirm Button */}
+            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmOrder}>
+              <Text style={styles.confirmButtonText}>Confirm Order</Text>
+            </TouchableOpacity>
+          </>
+        )}
       />
-
-      <Text style={styles.label}>Sender Address</Text>
-      <TextInput
-        style={styles.input}
-        value={senderAddress}
-        onChangeText={setSenderAddress}
-      />
-
-      <Text style={styles.label}>Sender Contact Number</Text>
-      <TextInput
-        style={styles.input}
-        value={senderContact}
-        onChangeText={setSenderContact}
-      />
-
-      <Text style={styles.label}>Receiver Name</Text>
-      <TextInput
-        style={styles.input}
-        value={receiverName}
-        onChangeText={setReceiverName}
-      />
-
-      <Text style={styles.label}>Receiver Address</Text>
-      <TextInput
-        style={styles.input}
-        value={receiverAddress}
-        onChangeText={setReceiverAddress}
-      />
-
-      <Text style={styles.label}>Receiver Contact Number</Text>
-      <TextInput
-        style={styles.input}
-        value={receiverContact}
-        onChangeText={setReceiverContact}
-      />
-
-      <Text style={styles.label}>Package Description</Text>
-      <TextInput
-        style={styles.input}
-        value={packageDescription}
-        onChangeText={setPackageDescription}
-      />
-
-      <Text style={styles.label}>Weight (kg)</Text>
-      <TextInput
-        style={styles.input}
-        value={packageWeight}
-        onChangeText={setPackageWeight}
-        keyboardType="numeric"
-      />
-
-      <Text style={styles.label}>Special Instructions</Text>
-      <TextInput
-        style={styles.input}
-        value={specialInstructions}
-        onChangeText={setSpecialInstructions}
-      />
-
-      <Text style={styles.label}>Delivery Option</Text>
-      <Picker
-        selectedValue={deliveryOption}
-        onValueChange={setDeliveryOption}
-        style={styles.picker}
-      >
-        <Picker.Item label="Standard Delivery" value="standard" />
-        <Picker.Item label="Express Delivery" value="express" />
-        <Picker.Item label="Same-day Delivery" value="same-day" />
-      </Picker>
-
-      <Text style={styles.label}>Pickup/Drop-off</Text>
-      <Picker
-        selectedValue={pickupDropoff}
-        onValueChange={setPickupDropoff}
-        style={styles.picker}
-      >
-        <Picker.Item label="Schedule a pickup" value="pickup" />
-        <Picker.Item label="Drop-off at nearest location" value="dropoff" />
-      </Picker>
-
-      <Text style={styles.label}>Payment Method</Text>
-      <Picker
-        selectedValue={paymentMethod}
-        onValueChange={setPaymentMethod}
-        style={styles.picker}
-      >
-        <Picker.Item label="Credit Card" value="credit_card" />
-        <Picker.Item label="PayPal" value="paypal" />
-        <Picker.Item label="Cash on Delivery" value="cod" />
-      </Picker>
-
-      <Button
-        title="Confirm Order"
-        onPress={handleConfirmOrder}
-        color="#007BFF"
-      />
-    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
+// Updated Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#f4f4f4',
+    backgroundColor: "#f4f4f4",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#007bff",
+    padding: 15,
+    borderRadius: 20,
   },
-  label: {
-    marginBottom: 5,
-    fontWeight: 'bold',
-  },
-  input: {
+  backButton: { marginRight: 15 },
+  headerTitle: { fontSize: 18, fontWeight: "bold", color: "white" },
+  card: { backgroundColor: "white", padding: 15, borderRadius: 10, elevation: 3, marginBottom: 20 },
+  input: { backgroundColor: "#fff", padding: 12, borderRadius: 8, fontSize: 16, borderWidth: 1, borderColor: "#ccc", marginBottom: 12 },
+  label: { fontSize: 16, fontWeight: "bold", marginBottom: 10 },
+  optionButton: {
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 8,
+    backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 5,
-    backgroundColor: '#fff',
+    borderColor: "#ccc",
   },
-  picker: {
-    marginBottom: 15,
-    borderRadius: 5,
-    backgroundColor: '#fff',
+  selectedOption: {
+    backgroundColor: "#FFA500",
   },
+  optionText: { fontSize: 16 },
+  selectedOptionText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  confirmButton: { backgroundColor: "#FFA500", padding: 15, borderRadius: 10, alignItems: "center" },
+  confirmButtonText: { fontSize: 18, fontWeight: "bold", color: "white" },
 });
 
 export default SendPackageScreen;
