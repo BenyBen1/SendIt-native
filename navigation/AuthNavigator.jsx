@@ -8,6 +8,7 @@ import HomeScreen from "../screens/HomeScreen";
 import AdminScreen from "../screens/AdminScreen";
 import ShippingCalculatorScreen from "../screens/ShippingCalculatorScreen";
 import SendPackageScreen from "../screens/SendPackageScreen";
+import ShipmentDetailScreen from "../screens/ShipmentDetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ const AuthNavigator = () => {
         <Stack.Screen name="Admin" component={AdminScreen} />
         <Stack.Screen name="ShippingCalculator" component={ShippingCalculatorScreen} />
         <Stack.Screen name="SendPackage" component={SendPackageScreen} />
+        <Stack.Screen name="ShipmentDetail" component={ShipmentDetailScreen} />
       </Stack.Navigator>
   );
 };

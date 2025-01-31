@@ -80,18 +80,24 @@ const HomeScreen = ({ navigation }) => {
       <Text style={styles.sectionTitle}>Current Tracking</Text>
       {packages.length > 0 ? (
         packages.map((pkg, index) => (
-          <View key={index} style={styles.trackingItem}>
+          <TouchableOpacity 
+            key={index} 
+            style={styles.trackingItem} 
+            onPress={() => navigation.navigate("ShipmentDetail", { packageDetails: pkg })}
+          >
             <Ionicons name="cube-outline" size={24} color="#FFA500" />
             <Text style={styles.trackingText}>
               {pkg.packageDescription} - {pkg.deliveryOption}
             </Text>
-          </View>
+            <Ionicons name="chevron-forward" size={24} color="#FFA500" />
+          </TouchableOpacity>
         ))
       ) : (
         <Text style={styles.noTrackingText}>No packages in transit</Text>
       )}
     </View>
   );
+  
 
   return (
     <SafeAreaView style={styles.safeArea}>
