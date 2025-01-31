@@ -46,6 +46,10 @@ const ShippingCalculatorScreen = () => {
         <Text style={styles.buttonText}>Calculate Price</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()} >
+        <Text style={styles.buttonText}>Go Back</Text>
+      </TouchableOpacity>
+
       {cost !== null && <Text style={styles.result}>Total Cost: KES {cost}</Text>}
     </View>
   );
