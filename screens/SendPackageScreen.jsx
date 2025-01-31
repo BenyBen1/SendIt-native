@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#007bff",
     padding: 15,
-    borderRadius: 20,
+    borderBottomEndRadius: 20,
   },
   backButton: { marginRight: 15 },
   headerTitle: { fontSize: 18, fontWeight: "bold", color: "white" },
