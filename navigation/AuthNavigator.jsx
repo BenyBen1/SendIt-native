@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
-import SplashScreen from "../screens/SplashScree";
+import SplashScreen from "../screens/SplashScreen";
 import HomeScreen from "../screens/HomeScreen";
 import AdminScreen from "../screens/AdminScreen";
 import ShippingCalculatorScreen from "../screens/ShippingCalculatorScreen";

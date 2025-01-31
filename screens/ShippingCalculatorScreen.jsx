@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const ShippingCalculatorScreen = () => {
   const [weight, setWeight] = useState("");
   const [distance, setDistance] = useState("");
   const [cost, setCost] = useState(null);
+
+  const navigation = useNavigation();
 
   const calculateCost = () => {
     const weightNum = parseFloat(weight);
