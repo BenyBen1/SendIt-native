@@ -53,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
             <MaterialIcons name="local-shipping" size={24} color="#fff" />
             <Text style={styles.actionText}>Send Package</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate("ShippingCalculator")}>
             <MaterialIcons name="attach-money" size={24} color="#fff" />
             <Text style={styles.actionText}>Price Check</Text>
           </TouchableOpacity>
