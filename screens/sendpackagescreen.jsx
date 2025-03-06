@@ -49,7 +49,7 @@ const SendPackageScreen = ({ navigation }) => {
     { label: "Credit Card", value: "credit-card" },
   ];
 
-  const handleConfirmOrder = () => {
+  const handleConfirmOrder = async () => {
     if (
       formData.senderName &&
       formData.senderAddress &&
@@ -61,15 +61,36 @@ const SendPackageScreen = ({ navigation }) => {
       formData.packageWeight &&
       formData.paymentMethod
     ) {
-      dispatch(addPackage(formData)); // Dispatch package to Redux
-
-      Alert.alert("Order Confirmed", "Your package has been successfully sent!", [
-        { text: "OK", onPress: () => navigation.goBack() },
-      ]);
+      try {
+        const response = await fetch("http://192.168.0.175:5000/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Ensures session authentication
+          body: JSON.stringify(formData),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          dispatch(addPackage(formData)); // Dispatch package to Redux
+  
+          Alert.alert("Order Confirmed", "Your package has been successfully sent!", [
+            { text: "OK", onPress: () => navigation.goBack() },
+          ]);
+        } else {
+          Alert.alert("Error", data.message || "Failed to send package.");
+        }
+      } catch (error) {
+        console.error("Error sending package:", error);
+        Alert.alert("Error", "Something went wrong. Please try again.");
+      }
     } else {
       Alert.alert("Error", "Please fill in all required fields.");
     }
   };
+  
 
   const handleSelectDeliveryOption = (option) => {
     setFormData({ ...formData, deliveryOption: option });
