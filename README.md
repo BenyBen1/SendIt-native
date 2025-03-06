@@ -1,12 +1,12 @@
 🚀 SendIt Courier API
-This is the backend for the SendIt Courier App, built with Node.js, Express, MongoDB, and sessions for authentication. The API allows users to manage shipments while enforcing role-based access control (RBAC) for admin and regular users.
+This is the backend for the SendIt Courier App, built with Node.js, Express, MongoDB, and session-based authentication. The API enables users to manage shipments with role-based access control (RBAC) for admins and regular users.
 
 📌 Features
-User Authentication (Session-based login/logout)
-Role-Based Access Control (Admins & Regular Users)
-Order Management (Create, View, Update, Delete Orders)
-Admin Privileges (View all orders, manage users)
-Session Handling (Keeps users logged in with cookies)
+✅ User Authentication (Session-based login/logout)
+✅ Role-Based Access Control (Admins & Regular Users)
+✅ Order Management (Create, View, Update, Delete Orders)
+✅ Admin Privileges (View all orders, manage users)
+✅ Session Handling (Keeps users logged in with cookies)
 🛠 Tech Stack
 Backend: Node.js, Express.js
 Database: MongoDB (Mongoose ODM)
@@ -34,13 +34,14 @@ sh
 Copy
 Edit
 node server.js
-The server will start on http://localhost:5000.
+✅ The server will start on http://localhost:5000.
 
 🔐 Authentication
-The API uses session-based authentication. Users remain logged in through cookies instead of JWT tokens.
+The API uses session-based authentication, keeping users logged in using cookies instead of JWT tokens.
 
 ✅ Login
 Endpoint: POST /auth/login
+
 Request Body:
 json
 Copy
@@ -63,9 +64,15 @@ Edit
 }
 ❌ Logout
 Endpoint: POST /auth/logout
-Response: { "message": "Logged out successfully" }
+
+Response:
+json
+Copy
+Edit
+{ "message": "Logged out successfully" }
 🔍 Check Session
 Endpoint: GET /auth/session
+
 Response:
 json
 Copy
@@ -75,6 +82,7 @@ Edit
 📌 Create a New Order
 Endpoint: POST /orders
 Authentication Required: ✅ Yes
+
 Request Body:
 json
 Copy
@@ -104,6 +112,7 @@ Edit
 📌 Get Logged-in User's Orders
 Endpoint: GET /orders/my-orders
 Authentication Required: ✅ Yes
+
 Response:
 json
 Copy
@@ -120,6 +129,7 @@ Edit
 📌 Get All Orders (Admin Only)
 Endpoint: GET /orders
 Authentication Required: ✅ Yes (Admin Only)
+
 Response:
 json
 Copy
@@ -143,11 +153,15 @@ Edit
 📌 Get Orders for a Specific User (Admin Only)
 Endpoint: GET /orders/user/:userId
 Authentication Required: ✅ Yes (Admin Only)
-Response: Returns orders for the specified user.
+
+Response:
+Returns orders for the specified user.
+
 📌 Update an Order (Owner/Admin Only)
 Endpoint: PUT /orders/:id
 Authentication Required: ✅ Yes
 Allowed: Order owner or Admin
+
 Response:
 json
 Copy
@@ -157,6 +171,7 @@ Edit
 Endpoint: DELETE /orders/:id
 Authentication Required: ✅ Yes
 Allowed: Order owner or Admin
+
 Response:
 json
 Copy
@@ -166,6 +181,7 @@ Edit
 📌 Get All Users (Admin Only)
 Endpoint: GET /users
 Authentication Required: ✅ Yes (Admin Only)
+
 Response:
 json
 Copy
@@ -177,6 +193,7 @@ Edit
 📌 Get Logged-in User's Profile
 Endpoint: GET /users/me
 Authentication Required: ✅ Yes
+
 Response:
 json
 Copy
@@ -193,10 +210,22 @@ app.use(cors({
   credentials: true
 }));
 🚀 Running the API
-Start MongoDB: mongod
-Run Server: node server.js
-API Base URL: http://localhost:5000
+1️⃣ Start MongoDB:
+
+sh
+Copy
+Edit
+mongod
+2️⃣ Run Server:
+
+sh
+Copy
+Edit
+node server.js
+3️⃣ API Base URL:
+http://localhost:5000
+
 📜 Notes
-All authenticated requests require a valid session cookie.
-Admin routes are restricted using isAdmin middleware.
-Users can only manage their own orders unless they are an admin.
+🔒 All authenticated requests require a valid session cookie.
+🔑 Admin routes are restricted using isAdmin middleware.
+🚚 Users can only manage their own orders unless they are an admin.
