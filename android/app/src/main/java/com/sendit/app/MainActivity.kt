@@ -1,4 +1,4 @@
-package com.sendit
+package com.sendit.app
 
 import android.os.Build
 import android.os.Bundle

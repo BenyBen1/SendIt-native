@@ -1,4 +1,4 @@
-package com.sendit
+package com.sendit.app
 
 import android.app.Application
 import android.content.res.Configuration
