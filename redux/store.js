@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import packageReducer from "./packageSlice";
+import packageReducer from "../components/packageSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { combineReducers } from "redux";
@@ -17,5 +17,6 @@ const store = configureStore({
   reducer: rootReducer,
 });
 
-export const persistor = persistStore(store);
-export default store;
+const persistor = persistStore(store);
+
+export { store, persistor };  // ✅ Ensure proper named export
