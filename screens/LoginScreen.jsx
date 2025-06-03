@@ -7,16 +7,41 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const API_URL = "http://192.168.0.175:5000";
+
+
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log("User logged in!");
-      navigation.replace("Home"); // Navigate to HomeScreen
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid: user.uid }),
+      });
+  
+      const data = await response.json();
+      console.log("Backend response:", data);
+  
+      if (response.ok) {
+        if (data.user.role === "admin") {
+          navigation.replace("AdminDashboard");
+        } else {
+          navigation.replace("Home");
+        }
+      } else {
+        setError(data.message);
+      }
     } catch (err) {
       setError(err.message);
     }
   };
+  
+  
+  
+
 
   return (
     <View style={styles.container}>

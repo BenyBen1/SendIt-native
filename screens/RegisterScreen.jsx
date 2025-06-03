@@ -7,16 +7,28 @@ const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const API_URL = "http://192.168.0.175:5000";
 
   const handleRegister = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User registered!");
-      navigation.replace("Home"); // Navigate to Home after registration
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      await fetch(`${API_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid: user.uid, email: user.email }),
+      });
+      
+  
+      navigation.replace("Home");
     } catch (err) {
       setError(err.message);
     }
   };
+  
+  
+  
 
   return (
     <View style={styles.container}>
