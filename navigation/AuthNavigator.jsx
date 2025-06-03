@@ -7,7 +7,7 @@ import SplashScreen from "../screens/SplashScreen";
 import HomeScreen from "../screens/HomeScreen";
 import AdminScreen from "../screens/AdminScreen";
 import ShippingCalculatorScreen from "../screens/ShippingCalculatorScreen";
-import SendPackageScreen from "../screens/SendPackageScreen";
+import SendPackageScreen from "../screens/sendpackagescreen";
 import ShipmentDetailScreen from "../screens/ShipmentDetailScreen";
 
 const Stack = createStackNavigator();
