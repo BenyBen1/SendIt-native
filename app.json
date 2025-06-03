@@ -2,7 +2,32 @@
   "expo": {
     "name": "Sendit",
     "slug": "Sendit",
-    "version": "1.0.0",
+    "version": "1.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/SendIt.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/SendIt.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/SendIt.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.sendit.app",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
+    },
     "extra": {
       "eas": {
         "projectId": "78e99c66-3192-4a81-9cab-79f27f255818"
