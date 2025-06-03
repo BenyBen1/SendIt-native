@@ -2,6 +2,11 @@
   "expo": {
     "name": "Sendit",
     "slug": "Sendit",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "78e99c66-3192-4a81-9cab-79f27f255818"
+      }
+    }
   }
 }
